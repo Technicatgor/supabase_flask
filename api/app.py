@@ -50,7 +50,11 @@ def user_profile(supabase_user):
 def get_devices(supabase_user):
     try:
         if supabase_user:
-            response = supabase.table("device").select("*").execute()
+            response = (
+                supabase.table("device")
+                .select('"*", user("firstname", "lastname", "department")')
+                .execute()
+            )
             return response.data
     except APIError:
         return {"message": "Please login."}, 401

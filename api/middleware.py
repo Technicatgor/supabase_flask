@@ -19,8 +19,10 @@ def token_required(f):
             return {"message": "Please Login."}, 401
         try:
             supabase_user = supabase.auth.get_user(jwt)
+
         except Exception as e:
-            print(f"Exception: {e}")
+            return {"message": (f"Exception: {e}")}
+
         return f(supabase_user.user, *args, **kwargs)
 
     return decorated_function
